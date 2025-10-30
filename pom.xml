@@ -96,29 +96,49 @@
                         <version>0.0.8</version>
                         <configuration>
                             <mainClass>${main.class}</mainClass>
-                            <jpackageProvider>BUNDLED</jpackageProvider>
-                            <launcher>MyWindowsApp</launcher>
-                            <appName>Modern Windows App</appName>
-                            <vendor>My Company</vendor>
-
-                            <!-- TARGET PLATFORM & INSTALLER TYPE FOR WINDOWS -->
-                            <targetPlatform>win</targetPlatform>
-                            <installerType>msi</installerType>
                         </configuration>
                         <executions>
                             <execution>
-                                <id>win-package</id>
+                                <id>jlink</id>
+                                <phase>compile</phase>
                                 <goals>
                                     <goal>jlink</goal>
-                                    <goal>jpackage</goal>
                                 </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>jpackage</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>jpackage</executable>
+                                    <arguments>
+                                        <argument>--type</argument>
+                                        <argument>app-image</argument>
+                                        <argument>--runtime-image</argument>
+                                        <argument>target/image</argument>
+                                        <argument>--module</argument>
+                                        <argument>ui.template/${main.class}</argument>
+                                        <argument>--name</argument>
+                                        <argument>MyApp</argument>
+                                        <argument>--dest</argument>
+                                        <argument>target</argument>
+                                    </arguments>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
                 </plugins>
             </build>
         </profile>
-
         <!--
             ================================================
             PROFILE FOR LINUX PACKAGING (Run this on Linux)

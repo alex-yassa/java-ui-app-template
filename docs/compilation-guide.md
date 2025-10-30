@@ -65,9 +65,9 @@ You can run it directly:
 mvn clean javafx:jlink -Pwindows
 ```
 
-This creates a runtime image in `target/image/`. The executable is located at `target/image/bin/MyApp.exe`.
+This creates a runtime image in `target/image/`. The executable is located at `target/image/bin/MyApp.bat`.
 
-You can run it directly on Windows.
+You can run it directly on Windows (requires Java to be installed on the system).
 
 ## Running the Application
 

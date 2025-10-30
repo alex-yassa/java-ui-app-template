@@ -104,6 +104,9 @@
                             <!-- TARGET PLATFORM & INSTALLER TYPE FOR WINDOWS -->
                             <targetPlatform>win</targetPlatform>
                             <installerType>msi</installerType>
+
+                            <!-- ICON CONFIGURATION FOR WINDOWS PACKAGING -->
+                            <icon>target/classes/img/TwerEnergoPlusLogo.png</icon>
                         </configuration>
                         <executions>
                             <execution>
@@ -145,6 +148,7 @@
 
                             <!-- Linux requires fakeroot access for .deb packaging. Ensure user has permissions. -->
                             <linuxShortcut>true</linuxShortcut>
+                            <icon>target/classes/img/TwerEnergoPlusLogo.png</icon>
                         </configuration>
                         <executions>
                             <execution>
@@ -167,6 +171,7 @@
                             <appName>Modern Linux App</appName>
                             <vendor>My Company</vendor>
                             <linuxShortcut>true</linuxShortcut>
+                            <icon>target/classes/icon.png</icon>
                         </configuration>
                         <executions>
                             <execution>

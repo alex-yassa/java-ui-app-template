@@ -21,7 +21,13 @@ public class Main extends Application {
 
         primaryStage.sizeToScene();
 
-        primaryStage.getIcons().add(new Image(getClass().getResource("/img/TwerEnergoPlusLogo.png").toExternalForm()));
+        try {
+            Image logo = new Image(getClass().getResourceAsStream("/img/TwerdEnergoPlusLogo.png"));
+            primaryStage.getIcons().add(logo);
+        } catch (Exception e) {
+            System.err.println("Error loading logo image: " + e.getMessage());
+        }
+//        primaryStage.getIcons().add(new Image(getClass().getResource("/img/TwerdEnergoPlusLogo.png").toExternalForm()));
 
         primaryStage.show();
 

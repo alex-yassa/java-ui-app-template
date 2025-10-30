@@ -3,4 +3,5 @@ module ui.template {
     requires javafx.fxml;
 
     opens org.example to javafx.fxml, javafx.graphics;
+    exports org.example;
 }

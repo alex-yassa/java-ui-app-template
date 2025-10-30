@@ -51,6 +51,7 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>${main.class}</mainClass>
+                    <launcher>MyApp</launcher>
                 </configuration>
             </plugin>
         </plugins>
@@ -147,9 +148,31 @@
                         </configuration>
                         <executions>
                             <execution>
-                                <id>linux-package</id>
+                                <id>linux-jlink</id>
+                                <phase>package</phase>
                                 <goals>
                                     <goal>jlink</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jpackage-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <configuration>
+                            <mainClass>${main.class}</mainClass>
+                            <runtimeImage>target/image</runtimeImage>
+                            <installerType>deb</installerType>
+                            <appName>Modern Linux App</appName>
+                            <vendor>My Company</vendor>
+                            <linuxShortcut>true</linuxShortcut>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>linux-jpackage</id>
+                                <phase>package</phase>
+                                <goals>
                                     <goal>jpackage</goal>
                                 </goals>
                             </execution>

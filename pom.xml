@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>modern-windows-app</artifactId>
+    <version>1.0</version>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <javafx.version>21.0.1</javafx.version>
+        <main.class>HelloWorldApp</main.class>
+    </properties>
+
+    <dependencies>
+        <!-- Standard JavaFX modules needed for the application -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <!-- This is crucial: it includes platform-specific libraries (like for Windows) -->
+        <!-- Note: We keep the Windows classifier here, but Linux dependencies
+             are handled by the javafx-maven-plugin automatically during the linux build. -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+            <classifier>win</classifier>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Compiler plugin to ensure we use the correct Java version -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <release>${maven.compiler.source}</release>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- PROFILES: Define packaging configurations for different operating systems -->
+    <profiles>
+        <!--
+            ================================================
+            PROFILE FOR WINDOWS PACKAGING (Run this on Windows)
+            ================================================
+        -->
+        <profile>
+            <id>windows-package</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.openjfx</groupId>
+                        <artifactId>javafx-maven-plugin</artifactId>
+                        <version>0.0.8</version>
+                        <configuration>
+                            <mainClass>${main.class}</mainClass>
+                            <jpackageProvider>BUNDLED</jpackageProvider>
+                            <launcher>MyWindowsApp</launcher>
+                            <appName>Modern Windows App</appName>
+                            <vendor>My Company</vendor>
+
+                            <!-- TARGET PLATFORM & INSTALLER TYPE FOR WINDOWS -->
+                            <targetPlatform>win</targetPlatform>
+                            <installerType>msi</installerType>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>win-package</id>
+                                <goals>
+                                    <goal>jlink</goal>
+                                    <goal>jpackage</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!--
+            ================================================
+            PROFILE FOR LINUX PACKAGING (Run this on Linux)
+            ================================================
+        -->
+        <profile>
+            <id>linux-package</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.openjfx</groupId>
+                        <artifactId>javafx-maven-plugin</artifactId>
+                        <version>0.0.8</version>
+                        <configuration>
+                            <mainClass>${main.class}</mainClass>
+                            <jpackageProvider>BUNDLED</jpackageProvider>
+                            <launcher>MyLinuxApp</launcher>
+                            <appName>Modern Linux App</appName>
+                            <vendor>My Company</vendor>
+
+                            <!-- TARGET PLATFORM & INSTALLER TYPE FOR LINUX (Debian/Ubuntu) -->
+                            <targetPlatform>linux</targetPlatform>
+                            <installerType>deb</installerType> <!-- Common for Ubuntu/Debian -->
+
+                            <!-- Linux requires fakeroot access for .deb packaging. Ensure user has permissions. -->
+                            <linuxShortcut>true</linuxShortcut>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>linux-package</id>
+                                <goals>
+                                    <goal>jlink</goal>
+                                    <goal>jpackage</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

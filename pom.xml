@@ -13,7 +13,8 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <javafx.version>21.0.1</javafx.version>
-        <main.class>HelloWorldApp</main.class>
+        <main.class>org.example.Main</main.class>
+        <javafx.platform>linux</javafx.platform>
     </properties>
 
     <dependencies>
@@ -22,20 +23,13 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>${javafx.version}</version>
+            <classifier>${javafx.platform}</classifier>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
-        </dependency>
-        <!-- This is crucial: it includes platform-specific libraries (like for Windows) -->
-        <!-- Note: We keep the Windows classifier here, but Linux dependencies
-             are handled by the javafx-maven-plugin automatically during the linux build. -->
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>${javafx.version}</version>
-            <classifier>win</classifier>
+            <classifier>${javafx.platform}</classifier>
         </dependency>
     </dependencies>
 
@@ -50,11 +44,42 @@
                     <release>${maven.compiler.source}</release>
                 </configuration>
             </plugin>
+            <!-- JavaFX Maven Plugin for running and packaging -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>${main.class}</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
     <!-- PROFILES: Define packaging configurations for different operating systems -->
     <profiles>
+        <profile>
+            <id>windows</id>
+            <activation>
+                <os>
+                    <family>Windows</family>
+                </os>
+            </activation>
+            <properties>
+                <javafx.platform>win</javafx.platform>
+            </properties>
+        </profile>
+        <profile>
+            <id>linux</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <properties>
+                <javafx.platform>linux</javafx.platform>
+            </properties>
+        </profile>
         <!--
             ================================================
             PROFILE FOR WINDOWS PACKAGING (Run this on Windows)

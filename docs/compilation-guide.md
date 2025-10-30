@@ -100,15 +100,19 @@ This uses `jlink` to create a runtime image and `jpackage` to build the .deb fil
 
 Note: Requires `fakeroot` for .deb creation on Linux.
 
-### Package for Windows (.msi)
+### Package for Windows (.exe and .msi)
 
-On Windows, run:
+Run the following to create a Windows app-image and MSI installer:
 
 ```bash
 mvn clean package -Pwindows-package
 ```
 
-This creates a Windows .msi installer.
+This uses `jlink` to create a runtime image and `jpackage` to build the portable app-image (containing `MyApp.exe`) and MSI installer.
+
+The app-image is located in `target/MyApp/`, and the MSI installer in `target/`.
+
+You can run the `.exe` directly on Windows without installing Java.
 
 Note: Cross-packaging may require the appropriate jpackage tool for the target platform.
 

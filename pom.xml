@@ -13,7 +13,7 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <javafx.version>21.0.1</javafx.version>
-        <main.class>org.example.Main</main.class>
+        <main.class>pl.torun.twerdenergoplus.ui.template.Main</main.class>
         <javafx.platform>linux</javafx.platform>
     </properties>
 
